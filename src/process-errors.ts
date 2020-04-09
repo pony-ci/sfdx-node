@@ -20,11 +20,7 @@ function processError(inputError: any): SfdxError {
         outputError.message = inputError;
     } else {
         const str = String(inputError);
-        if (str !== '[object Object]') {
-            outputError.message = str;
-        } else {
-            outputError.message = JSON.stringify(inputError);
-        }
+        outputError.message = str !== '[object Object]' ? str : JSON.stringify(inputError);
     }
     return outputError;
 }
