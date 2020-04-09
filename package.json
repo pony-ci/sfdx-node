@@ -1,0 +1,27 @@
+{
+  "name": "@pony-ci/sfdx-node",
+  "version": "1.0.0",
+  "description": "Node wrapper for sfdx-cli",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pony-ci/sfdx-node.git"
+  },
+  "keywords": [
+    "sfdx",
+    "node",
+    "cli",
+    "dx",
+    "salesforcedx",
+    "salesforce"
+  ],
+  "author": "Ondřej Kratochvíl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pony-ci/sfdx-node/issues"
+  },
+  "homepage": "https://github.com/pony-ci/sfdx-node#readme"
+}
