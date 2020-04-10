@@ -35,17 +35,15 @@ export function processAllErrors(sfdxErrors: any): SfdxError[] {
     return errors;
 }
 
-const getPlainObjectFromNativeError = (err) => {
+const getPlainObjectFromNativeError = (err: any): SfdxError => {
     const error = {
         message: ''
     };
     if (err instanceof Error) {
         const obj = err;
-        const props = [];
         Object.getOwnPropertyNames(obj).forEach((key) => {
-            if (!props.includes(key) && key !== '__proto__' && typeof obj[key] !== 'function') {
+            if (key !== '__proto__' && typeof obj[key] !== 'function') {
                 error[key] = obj[key];
-                props.push(key);
             }
         });
     }
