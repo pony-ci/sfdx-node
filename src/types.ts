@@ -1,18 +1,5 @@
-
 export class SfdxApi {
     [key: string]: any;
-}
-
-export type Flags = { [key: string]: string | boolean | number | undefined };
-
-export interface Opts {
-    args?: string[];
-}
-
-export interface MessageArgs {
-    commandId: string;
-    flags: Flags;
-    opts: Opts;
 }
 
 export class NsApi {
@@ -22,6 +9,16 @@ export class NsApi {
 export interface SfdxNamespace {
     commandsDir: string;
     namespace: string;
+}
+
+export type Flags = { [key: string]: string | boolean | number | undefined | null };
+
+export type Opts = string | string[];
+
+export interface MessageArgs {
+    commandId: string;
+    flags: Flags;
+    opts: Opts;
 }
 
 export interface SfdxMessage {

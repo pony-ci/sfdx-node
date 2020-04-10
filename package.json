@@ -17,7 +17,6 @@
     "@salesforce/core": "^2",
     "fs-extra": "^8.1.0",
     "hook-std": "^2.0.0",
-    "lodash": "^4.17.15",
     "salesforce-alm": "48.3.0"
   },
   "devDependencies": {

@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-import _ from 'lodash';
 import * as path from 'path';
 import {CreateCommandFunc, NsApi} from './types';
 
@@ -33,6 +32,10 @@ function processCommandsDir(commandsDir: string, namespace: string, parts: strin
     return cmdArray;
 }
 
+function pascalCase(it: string[]): string {
+    return it.map(word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join('');
+}
+
 export function buildCommands(createCmd: CreateCommandFunc, commandsDir: string, namespace: string): NsApi {
     const nsApi: NsApi = {};
     const cmdArray = processCommandsDir(path.join(commandsDir, namespace), namespace, []);
@@ -42,7 +45,7 @@ export function buildCommands(createCmd: CreateCommandFunc, commandsDir: string,
         cmdKeyParts.reduce((api: any, part: string) => {
             if (!api.hasOwnProperty(part)) {
                 if (cmdKeyParts[cmdKeyParts.length - 1] === part) {
-                    const commandExportedName = _.upperFirst(_.camelCase([...cmdKeyParts, 'command'].join('-')));
+                    const commandExportedName = pascalCase([...cmdKeyParts, 'command']);
                     api[part] = createCmd(commandId, commandExportedName, commandFile);
                 } else {
                     api[part] = {};

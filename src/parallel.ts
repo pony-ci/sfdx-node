@@ -10,7 +10,7 @@ const createParallelCommand = (commandId: string, commandName: string, commandFi
             flags,
             opts
         };
-        const child = fork(path.join(__dirname, '../lib/child.js'), ['--colors']);
+        const child = fork(path.join(__dirname, './child.js'), ['--colors']);
         child.on('message', (message) => {
             if (message.type === 'resolved') {
                 resolve(message.value);

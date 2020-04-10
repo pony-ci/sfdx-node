@@ -1,5 +1,5 @@
 import {processAllErrors} from './process-errors';
-import {createCommand} from './serial';
+import {createCommand} from './run';
 import {MessageArgs, SfdxMessage} from './types';
 
 const sendSuccess = (resolvedValue) => {
