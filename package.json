@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Node wrapper for sfdx-cli",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "prepack": "rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
@@ -13,6 +14,7 @@
     "url": "git+https://github.com/pony-ci/sfdx-node.git"
   },
   "dependencies": {
+    "@pony-ci/cli-exec": "^1.0.2",
     "@salesforce/command": "^2",
     "@salesforce/core": "^2",
     "fs-extra": "^8.1.0",

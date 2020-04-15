@@ -2,16 +2,16 @@ import {processAllErrors} from './process-errors';
 import {createCommand} from './run';
 import {MessageArgs, SfdxMessage} from './types';
 
-const sendSuccess = (resolvedValue) => {
+const sendResolved = (value) => {
     process.send({
         type: 'resolved',
-        value: resolvedValue,
+        value,
     });
 };
-const sendFailure = (rejectedValue) => {
+const sendRejected = (value) => {
     process.send({
         type: 'rejected',
-        value: processAllErrors(rejectedValue),
+        value: processAllErrors(value),
     });
 };
 
@@ -32,11 +32,11 @@ process.on('message', function onMessage(message: SfdxMessage): Promise<void> {
         const command = createCommand(commandId, message.commandName, message.commandFile);
         const value = command(flags, opts);
         if (value && typeof value.then === 'function') {
-            value.then(sendSuccess).catch(sendFailure);
+            value.then(sendResolved).catch(sendRejected);
         } else {
-            sendSuccess(value);
+            sendResolved(value);
         }
     } catch (err) {
-        sendFailure(err);
+        sendRejected(err);
     }
 });

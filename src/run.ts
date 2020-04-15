@@ -1,3 +1,4 @@
+import {buildArgs} from '@pony-ci/cli-exec/lib';
 import hookStd from 'hook-std';
 import {processAllErrors} from './process-errors';
 import {Flags, Opts} from './types';
@@ -16,57 +17,23 @@ const unhookStd = () => {
     process.stderr.write = realStderrWrite;
 };
 
-const isBoolean = (it: any) => [true, false].includes(it);
-
-function getBooleanValue(inputValue: any): boolean {
-    if (isBoolean(inputValue)) {
-        return inputValue;
-    }
-    return typeof inputValue === 'string' && (inputValue || '').toLowerCase() === 'true';
-}
-
-function transformArgs(flags: Flags = {}, opts: Opts = []): any {
-    const argsObj = {
-        argv: [],
-        quiet: false
-    };
-    Object.keys(flags)
-        .map(it => it.toLowerCase())
-        .forEach((flagName) => {
-            const flagValue = flags[flagName];
-            if (flagName === '_quiet') {
-                argsObj.quiet = getBooleanValue(flagValue);
-            } else if (isBoolean(flagValue) && flagValue === true) {
-                argsObj.argv.push(`--${flagName}`);
-            } else if (!isBoolean(flagValue) && flagValue) {
-                argsObj.argv.push(`--${flagName}`, `${flagValue}`);
-            }
-        });
-    if (Array.isArray(opts)) {
-        argsObj.argv = [...argsObj.argv, ...opts];
-    } else {
-        argsObj.argv.push(opts);
-    }
-    return argsObj;
-}
-
 export const createCommand = (commandId: string, commandName: string, commandFile: string) =>
     (flags: Flags = {}, opts: Opts = []) => new Promise((resolve, reject) => {
-        // (flags: Flags = {}, opts: Opts = []) => new Promise((resolve, reject) => {
         // tslint:disable-next-line:non-literal-require
         const required = require(commandFile);
         const cmd = required.default || required[commandName];
         cmd.id = commandId;
-        const cmdArgs = transformArgs(flags, opts);
+        const args: string[] = buildArgs(flags, opts);
+        const quiet: boolean = Boolean(flags.quiet) || false;
         let currentHookFlag = false;
-        if (cmdArgs.quiet) {
+        if (quiet) {
             hookStd(() => undefined);
             currentHookFlag = true;
         }
         sfdxErrors = [];
-        cmd.run(cmdArgs.argv)
+        cmd.run(args)
             .then((sfdxResult) => {
-                if (cmdArgs.quiet && currentHookFlag) {
+                if (quiet && currentHookFlag) {
                     currentHookFlag = false;
                     unhookStd();
                 }
@@ -79,7 +46,7 @@ export const createCommand = (commandId: string, commandName: string, commandFil
                 resolve(sfdxResult);
             })
             .catch((sfdxErr) => {
-                if (cmdArgs.quiet && currentHookFlag) {
+                if (quiet && currentHookFlag) {
                     currentHookFlag = false;
                     unhookStd();
                 }
