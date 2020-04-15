@@ -4,7 +4,7 @@ import {CreateCommandFunc, NsApi, SfdxCommandDefinition} from './types';
 
 const pascalCase = (it: string[]) => it.map(word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join('');
 
-function processCommandsDir(commandsDir: string, namespace: string, parts: string[]): SfdxCommandDefinition[] {
+function preprocessCommandsDir(commandsDir: string, namespace: string, parts: string[]): SfdxCommandDefinition[] {
     const cmdArray: SfdxCommandDefinition[] = [];
     const dir = path.join(commandsDir, ...parts);
     fs
@@ -28,7 +28,7 @@ function processCommandsDir(commandsDir: string, namespace: string, parts: strin
                     });
                 }
             } else if (stat.isDirectory()) {
-                cmdArray.push(...processCommandsDir(commandsDir, namespace, newParts));
+                cmdArray.push(...preprocessCommandsDir(commandsDir, namespace, newParts));
             }
         });
     return cmdArray;
@@ -36,7 +36,7 @@ function processCommandsDir(commandsDir: string, namespace: string, parts: strin
 
 export function buildCommands(createCommand: CreateCommandFunc, commandsDir: string, namespace: string): NsApi {
     const nsApi: NsApi = {};
-    processCommandsDir(path.join(commandsDir, namespace), namespace, [])
+    preprocessCommandsDir(path.join(commandsDir, namespace), namespace, [])
         .forEach(({commandId, commandName, commandFile}: SfdxCommandDefinition) => {
             const parts = commandId.split(':').slice(1);
             parts.reduce((api: any, part: string) => {
