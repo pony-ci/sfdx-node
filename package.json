@@ -1,22 +1,49 @@
 {
   "name": "@pony-ci/sfdx-node",
   "version": "1.0.0",
-  "description": "Node wrapper for sfdx-cli",
-  "main": "index.js",
+  "description": "Execute SFDX commands in node.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepack": "rm -rf lib && tsc -b",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "watch": "rm -rf lib && tsc --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pony-ci/sfdx-node.git"
   },
+  "dependencies": {
+    "@pony-ci/cli-exec": "^1.0.2",
+    "@salesforce/command": "^2",
+    "@salesforce/core": "^2",
+    "fs-extra": "^8.1.0",
+    "hook-std": "^2.0.0",
+    "salesforce-alm": "^48.8.0"
+  },
+  "devDependencies": {
+    "@salesforce/dev-config": "1.4.1",
+    "@types/chai": "^4",
+    "@types/fs-extra": "^8.1.0",
+    "@types/node": "^10.17.18",
+    "chai": "^4",
+    "globby": "^8",
+    "mocha": "^5",
+    "nyc": "^14",
+    "ts-node": "^8",
+    "tslint": "^5"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "keywords": [
     "sfdx",
-    "node",
     "cli",
-    "dx",
     "salesforcedx",
-    "salesforce"
+    "node",
+    "dx",
+    "salesforce",
+    "salesforce-alm"
   ],
   "author": "Ondřej Kratochvíl",
   "license": "ISC",
