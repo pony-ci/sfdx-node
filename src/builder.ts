@@ -34,9 +34,9 @@ function preprocessCommandsDir(commandsDir: string, namespace: string, parts: st
     return cmdArray;
 }
 
-export function buildCommands(createCommand: CreateCommandFunc, commandsDir: string, namespace: string): NsApi {
+export function buildCommands(createCommand: CreateCommandFunc, moduleDir: string, namespace: string): NsApi {
     const nsApi: NsApi = {};
-    preprocessCommandsDir(path.join(commandsDir, namespace), namespace, [])
+    preprocessCommandsDir(path.join(moduleDir, namespace), namespace, [])
         .forEach(({commandId, commandName, commandFile}: SfdxCommandDefinition) => {
             const parts = commandId.split(':').slice(1);
             parts.reduce((api: any, part: string) => {

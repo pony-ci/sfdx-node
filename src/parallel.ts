@@ -25,13 +25,7 @@ const createParallelCommand: CreateCommandFunc = (commandId: string, commandName
 
 export const sfdx: SfdxApi = new SfdxApi();
 
-const commandsBuildsRequests: { [ns: string]: SfdxNamespace } = {};
-
-export function registerNamespace(sfdxNamespace: SfdxNamespace, force?: boolean): void {
+export function registerNamespace(sfdxNamespace: SfdxNamespace): void {
     const {commandsDir, namespace}: SfdxNamespace = sfdxNamespace;
-    if (sfdx.hasOwnProperty(namespace) && force !== true) {
-        return;
-    }
     sfdx[namespace] = buildCommands(createParallelCommand, commandsDir, namespace);
-    commandsBuildsRequests[namespace] = sfdxNamespace;
 }

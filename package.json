@@ -1,7 +1,7 @@
 {
   "name": "@pony-ci/sfdx-node",
   "version": "1.0.0",
-  "description": "Node wrapper for sfdx-cli",
+  "description": "Execute SFDX commands in node.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -19,7 +19,7 @@
     "@salesforce/core": "^2",
     "fs-extra": "^8.1.0",
     "hook-std": "^2.0.0",
-    "salesforce-alm": "48.3.0"
+    "salesforce-alm": "^48.8.0"
   },
   "devDependencies": {
     "@salesforce/dev-config": "1.4.1",
