@@ -42,7 +42,8 @@
     "salesforcedx",
     "node",
     "dx",
-    "salesforce"
+    "salesforce",
+    "salesforce-alm"
   ],
   "author": "Ondřej Kratochvíl",
   "license": "ISC",
