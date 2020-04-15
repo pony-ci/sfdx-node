@@ -1,6 +1,6 @@
-import {processAllErrors} from './process-errors';
+import {parseErrors} from './process-errors';
 import {createCommand} from './run';
-import {MessageArgs, SfdxMessage} from './types';
+import {SfdxNodeMessage} from './types';
 
 const sendResolved = (value) => {
     process.send({
@@ -11,25 +11,15 @@ const sendResolved = (value) => {
 const sendRejected = (value) => {
     process.send({
         type: 'rejected',
-        value: processAllErrors(value),
+        value: parseErrors(value),
     });
 };
 
-// tslint:disable-next-line:no-function-expression
-process.on('message', function onMessage(message: SfdxMessage): Promise<void> {
-    if (message.cmd !== 'SFDX_PARALLEL_init') {
-        return;
-    }
-    // @ts-ignore
-    if (onMessage.initialized) {
-        return;
-    }
-    // @ts-ignore
-    onMessage.initialized = true;
+function onMessage(message: SfdxNodeMessage): void {
     process.removeListener('message', onMessage);
-    const {commandId, flags, opts}: MessageArgs = message.args;
+    const {commandId, commandName, commandFile, flags, opts}: SfdxNodeMessage = message;
     try {
-        const command = createCommand(commandId, message.commandName, message.commandFile);
+        const command = createCommand(commandId, commandName, commandFile);
         const value = command(flags, opts);
         if (value && typeof value.then === 'function') {
             value.then(sendResolved).catch(sendRejected);
@@ -39,4 +29,6 @@ process.on('message', function onMessage(message: SfdxMessage): Promise<void> {
     } catch (err) {
         sendRejected(err);
     }
-});
+}
+
+process.on('message', onMessage);

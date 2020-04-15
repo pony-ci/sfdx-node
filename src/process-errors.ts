@@ -1,51 +1,42 @@
-import {SfdxError} from './types';
+import {SfdxNodeError} from './types';
 
-function processError(inputError: any): SfdxError {
-    let outputError: SfdxError = {
+export const parseErrors = (sfdxErrors: any) =>
+    Array.isArray(sfdxErrors) ? sfdxErrors.map(parseError) : [parseError(sfdxErrors)];
+
+function parseError(error: any): SfdxNodeError {
+    let result: SfdxNodeError = {
         message: '',
     };
 
     function hasOwnProperty(value: string): boolean {
-        return (inputError || {}).hasOwnProperty && (inputError || {}).hasOwnProperty(value);
+        return (error || {}).hasOwnProperty && (error || {}).hasOwnProperty(value);
     }
 
     if (hasOwnProperty('error')) {
-        return processError(inputError.error);
+        return parseError(error.error);
     }
-    if (inputError instanceof Error) {
-        outputError = getPlainObjectFromNativeError(inputError);
+    if (error instanceof Error) {
+        result = parseNativeError(error);
     } else if (hasOwnProperty('message')) {
-        outputError = inputError;
-    } else if (typeof inputError === 'string') {
-        outputError.message = inputError;
+        result = error;
+    } else if (typeof error === 'string') {
+        result.message = error;
     } else {
-        const str = String(inputError);
-        outputError.message = str !== '[object Object]' ? str : JSON.stringify(inputError);
+        const str = String(error);
+        result.message = str !== '[object Object]' ? str : JSON.stringify(error);
     }
-    return outputError;
+    return result;
 }
 
-export function processAllErrors(sfdxErrors: any): SfdxError[] {
-    let errors: SfdxError[] = [];
-    if (Array.isArray(sfdxErrors)) {
-        errors = sfdxErrors.map(processError);
-    } else {
-        errors.push(processError(sfdxErrors));
-    }
-    return errors;
-}
-
-const getPlainObjectFromNativeError = (err: any): SfdxError => {
-    const error = {
-        message: ''
-    };
-    if (err instanceof Error) {
-        const obj = err;
-        Object.getOwnPropertyNames(obj).forEach((key) => {
-            if (key !== '__proto__' && typeof obj[key] !== 'function') {
-                error[key] = obj[key];
+const parseNativeError = (error: any): SfdxNodeError => {
+    return Object
+        .getOwnPropertyNames(error)
+        .reduce((result: SfdxNodeError, key: string) => {
+            if (key !== '__proto__' && typeof error[key] !== 'function') {
+                result[key] = error[key];
             }
+            return result;
+        }, {
+            message: ''
         });
-    }
-    return error;
 };

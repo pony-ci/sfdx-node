@@ -1,7 +1,7 @@
 import {buildArgs} from '@pony-ci/cli-exec/lib';
 import hookStd from 'hook-std';
-import {processAllErrors} from './process-errors';
-import {Flags, Opts} from './types';
+import {parseErrors} from './process-errors';
+import {CreateCommandFunc, Flags, Opts} from './types';
 
 const realStdoutWrite = process.stdout.write;
 const realStderrWrite = process.stderr.write;
@@ -17,12 +17,12 @@ const unhookStd = () => {
     process.stderr.write = realStderrWrite;
 };
 
-export const createCommand = (commandId: string, commandName: string, commandFile: string) =>
+export const createCommand: CreateCommandFunc = (commandId: string, commandName: string, commandFile: string) =>
     (flags: Flags = {}, opts: Opts = []) => new Promise((resolve, reject) => {
         // tslint:disable-next-line:non-literal-require
         const required = require(commandFile);
-        const cmd = required.default || required[commandName];
-        cmd.id = commandId;
+        const command = required.default || required[commandName];
+        command.id = commandId;
         const args: string[] = buildArgs(flags, opts);
         const quiet: boolean = Boolean(flags.quiet) || false;
         let currentHookFlag = false;
@@ -31,7 +31,7 @@ export const createCommand = (commandId: string, commandName: string, commandFil
             currentHookFlag = true;
         }
         sfdxErrors = [];
-        cmd.run(args)
+        command.run(args)
             .then((sfdxResult) => {
                 if (quiet && currentHookFlag) {
                     currentHookFlag = false;
@@ -53,6 +53,6 @@ export const createCommand = (commandId: string, commandName: string, commandFil
                 if (process.exitCode) {
                     process.exitCode = 0;
                 }
-                reject(processAllErrors(sfdxErr));
+                reject(parseErrors(sfdxErr));
             });
     });

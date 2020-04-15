@@ -1,15 +1,10 @@
 import {fork} from 'child_process';
 import * as path from 'path';
 import {buildCommands} from './builder';
-import {Flags, MessageArgs, Opts, SfdxApi, SfdxMessage, SfdxNamespace} from './types';
+import {CreateCommandFunc, Flags, Opts, SfdxApi, SfdxNamespace, SfdxNodeMessage} from './types';
 
-const createParallelCommand = (commandId: string, commandName: string, commandFile: string) =>
+const createParallelCommand: CreateCommandFunc = (commandId: string, commandName: string, commandFile: string) =>
     (flags: Flags, opts: Opts) => new Promise((resolve, reject) => {
-        const childArgs: MessageArgs = {
-            commandId,
-            flags,
-            opts
-        };
         const child = fork(path.join(__dirname, './child.js'), ['--colors']);
         child.on('message', (message) => {
             if (message.type === 'resolved') {
@@ -18,11 +13,12 @@ const createParallelCommand = (commandId: string, commandName: string, commandFi
                 reject(message.value);
             }
         });
-        const childMsg: SfdxMessage = {
-            cmd: 'SFDX_PARALLEL_init',
-            args: childArgs,
+        const childMsg: SfdxNodeMessage = {
+            commandId,
+            commandName,
             commandFile,
-            commandName
+            flags,
+            opts
         };
         child.send(childMsg);
     });

@@ -15,23 +15,24 @@ export type Flags = { [key: string]: string | boolean | number | undefined | nul
 
 export type Opts = string | string[];
 
-export interface MessageArgs {
+export interface SfdxCommandDefinition {
     commandId: string;
+    commandName: string;
+    commandFile: string;
+}
+
+export interface SfdxNodeMessage {
+    commandId: string;
+    commandName: string;
+    commandFile: string;
     flags: Flags;
     opts: Opts;
 }
 
-export interface SfdxMessage {
-    cmd: string;
-    args: MessageArgs;
-    commandFile: string;
-    commandName: string;
-}
-
-export interface SfdxError {
+export interface SfdxNodeError {
     message: string;
     stack?: string;
 }
 
-export type CreateCommandFunc = (cmdId: string, cmdName: string, cmdFile: string) =>
+export type CreateCommandFunc = (commandId: string, commandName: string, commandFile: string) =>
     (flags: Flags, opts: Opts) => Promise<any>;
