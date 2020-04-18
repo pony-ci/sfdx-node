@@ -14,9 +14,9 @@ const createParallelCommand: CreateCommandFunc = (commandId: string, commandName
             }
         });
         const childMsg: SfdxNodeMessage = {
+            commandFile,
             commandId,
             commandName,
-            commandFile,
             flags,
             opts
         };

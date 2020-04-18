@@ -1,5 +1,5 @@
 import * as path from 'path';
-import {registerNamespace, sfdx} from './parallel';
+import {registerNamespace} from './parallel';
 
 const ALM_PATH = path.dirname(require.resolve('salesforce-alm'));
 

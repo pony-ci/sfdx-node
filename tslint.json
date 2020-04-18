@@ -1,8 +1,7 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:recommended",
-    "tslint-microsoft-contrib"
+    "tslint:recommended"
   ],
   "linterOptions": {
     "exclude": [
@@ -24,12 +23,6 @@
     ],
     "eofline": false,
     "function-name": false,
-    "export-name": [
-      true,
-      {
-        "ignore-case": true
-      }
-    ],
     "forin": false,
     "interface-name": false,
     "import-name": false,
@@ -64,11 +57,10 @@
     "no-unused-variable": false,
     "no-relative-imports": false,
     "one-variable-per-declaration": false,
-    "rulesDirectory": [
-      "node_modules/tslint-microsoft-contrib"
-    ],
     "react-a11y-event-has-role": false,
     "static-this": true,
+    "interface-over-type-literal": false,
+    "arrow-parens": false,
     "typedef": [
       true,
       "call-signature",
@@ -78,6 +70,11 @@
       "object-destructuring",
       "array-destructuring"
     ],
-    "trailing-comma": false
+    "trailing-comma": false,
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore"
+    ]
   }
 }

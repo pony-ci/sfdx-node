@@ -1,8 +1,6 @@
 # sfdx-node
 
-<!--
-[![pony-ci](https://circleci.com/gh/pony-ci/sfdx-node.svg)](https://circleci.com/gh/pony-ci/sfdx-node)
--->
+[![CircleCI](https://circleci.com/gh/pony-ci/sfdx-node.svg?style=svg)](https://circleci.com/gh/pony-ci/sfdx-node)
 [![npm](https://badge.fury.io/js/%40pony-ci%2Fsfdx-node.svg)](https://badge.fury.io/js/%40pony-ci%2Fsfdx-node)
 [![License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/pony-ci/sfdx-node/blob/master/LICENSE)
 
