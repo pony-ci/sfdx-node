@@ -1,11 +1,11 @@
 {
   "name": "@pony-ci/sfdx-node",
   "version": "1.0.4",
-  "description": "Execute SFDX commands in node.",
+  "description": "Execute sfdx commands in node.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prepack": "npm i && rm -rf lib && tsc -b",
+    "prepack": "npm i && rm -rf lib && tsc -b; npm run lint && npm test",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "lint": "tslint src/**/*.ts",
     "watch": "rm -rf lib && tsc --watch"
@@ -24,15 +24,15 @@
   },
   "devDependencies": {
     "@salesforce/dev-config": "1.4.1",
-    "@types/chai": "^4",
+    "@types/chai": "^4.2.11",
     "@types/chai-as-promised": "^7.1.2",
     "@types/fs-extra": "^8.1.0",
     "@types/node": "^10.17.18",
-    "chai": "^4",
+    "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "globby": "^8",
-    "mocha": "^5",
-    "nyc": "^14",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.1",
     "ts-node": "^8",
     "tslint": "^5"
   },

@@ -48,8 +48,8 @@ describe('sfdx force', () => {
             .to.have.nested.property('[0]')
             .to.deep.nested.include({
                 commandName: 'ConfigSetCommand',
-                message: 'Provide required name=value pairs for the command. Enclose any values that contain spaces in double quotes.',
                 exitCode: 1,
+                message: 'Provide required name=value pairs for the command. Enclose any values that contain spaces in double quotes.',
             });
     });
 });
