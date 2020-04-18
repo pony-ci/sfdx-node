@@ -1,6 +1,6 @@
 {
   "name": "@pony-ci/sfdx-node",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Execute SFDX commands in node.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -34,7 +34,7 @@
     "tslint": "^5"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "keywords": [
     "sfdx",
@@ -46,7 +46,7 @@
     "salesforce-alm"
   ],
   "author": "Ondřej Kratochvíl",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pony-ci/sfdx-node/issues"
   },
