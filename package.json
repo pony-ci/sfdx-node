@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "prepack": "rm -rf lib && tsc -b",
+    "prepack": "npm i && rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "watch": "rm -rf lib && tsc --watch"
   },
