@@ -1,11 +1,12 @@
 # sfdx-node
 
-[![npm version](https://badge.fury.io/js/%40pony-ci%2Fsfdx-node.svg)](https://badge.fury.io/js/%40pony-ci%2Fsfdx-node)
 <!--
-[![pony-ci](https://circleci.com/gh/pony-ci/sfdx-node.svg?style=shield)](https://circleci.com/gh/pony-ci/sfdx-node)
+[![pony-ci](https://circleci.com/gh/pony-ci/sfdx-node.svg)](https://circleci.com/gh/pony-ci/sfdx-node)
 -->
+[![npm](https://badge.fury.io/js/%40pony-ci%2Fsfdx-node.svg)](https://badge.fury.io/js/%40pony-ci%2Fsfdx-node)
+[![License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/pony-ci/sfdx-node/blob/master/LICENSE)
 
-Execute SFDX commands in node.  
+Execute sfdx commands in node.  
 The sfdx-cli itself doesn't have to be installed.
 
 ## Usage
@@ -25,7 +26,7 @@ await sfdx.force.config.set({quiet: true}, 'defaultusername=username');
 ```
 
 ## SFDX Plugins
-This module includes a `force` plugin by default.
+This module includes the `force` plugin by default.
 You can override this plugin with a different version or even add support for other plugins.
 To add or override plugin, add node module containing the commands into dependencies in your `package.json` file.
 Then register the commands using `registerNamespace` function.
@@ -46,8 +47,8 @@ registerNamespace({
 ``` 
 
 Requirements for plugins.
-* The commands must be in the `<commandsDir>/<namespace>/` directory.  
-* The command file must contain one of the following:  
+* Commands must be in the `<commandsDir>/<namespace>/` directory.  
+* Each command file must contain one of the following:  
     * default export of a class extending `SfdxCommand`
     * export of a class extending the ToolbeltCommand and its name must be in camel case, 
     without namespace name and with `Command` suffix,
