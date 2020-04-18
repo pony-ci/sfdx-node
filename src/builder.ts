@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import * as path from 'path';
 import {CreateCommandFunc, NsApi, SfdxCommandDefinition} from './types';
 
-const pascalCase = (it: string[]) => it.map(word => word[0].toUpperCase() + word.slice(1).toLowerCase()).join('');
+const pascalCase = (it: string[]) => it.map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase()).join('');
 
 function preprocessCommandsDir(commandsDir: string, namespace: string, parts: string[]): SfdxCommandDefinition[] {
     const cmdArray: SfdxCommandDefinition[] = [];
@@ -22,9 +22,9 @@ function preprocessCommandsDir(commandsDir: string, namespace: string, parts: st
             if (stat.isFile()) {
                 if (newParts.length > 0 && path.extname(commandFile) === '.js') {
                     cmdArray.push({
+                        commandFile,
                         commandId: [namespace, ...newParts].join(':'),
-                        commandName: pascalCase([...newParts, 'command']),
-                        commandFile
+                        commandName: pascalCase([...newParts, 'command'])
                     });
                 }
             } else if (stat.isDirectory()) {
@@ -37,9 +37,9 @@ function preprocessCommandsDir(commandsDir: string, namespace: string, parts: st
 function processBaseCommand(moduleDir: string, namespace: string): SfdxCommandDefinition | undefined {
     if (fs.existsSync(path.join(moduleDir, `${namespace}.js`))) {
         return {
+            commandFile: path.join(moduleDir, `${namespace}.js`),
             commandId: namespace,
-            commandName: pascalCase([namespace, 'command']),
-            commandFile: path.join(moduleDir, `${namespace}.js`)
+            commandName: pascalCase([namespace, 'command'])
         };
     }
 }

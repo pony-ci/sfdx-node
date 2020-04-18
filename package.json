@@ -1,12 +1,13 @@
 {
   "name": "@pony-ci/sfdx-node",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Execute SFDX commands in node.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "prepack": "npm i && rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "lint": "tslint src/**/*.ts",
     "watch": "rm -rf lib && tsc --watch"
   },
   "repository": {

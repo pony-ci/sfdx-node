@@ -32,10 +32,24 @@ describe('sfdx force', () => {
     });
 
     it('config list while quiet', async () => {
-        await sfdx.force.config.list({quiet: true}).should.eventually.be.instanceOf(Array);
+        await sfdx.force.config.list({quiet: true})
+            .should.eventually.be.instanceOf(Array);
     });
 
     it('config list', async () => {
-        await sfdx.force.config.list({quiet: false}).should.eventually.be.instanceOf(Array);
+        await sfdx.force.config.list({quiet: false})
+            .should.eventually.be.instanceOf(Array);
+    });
+
+    it('config set throw', async () => {
+        await sfdx.force.config.set()
+            .should.eventually.be.rejected.with.instanceOf(Array)
+            .that.has.length(1)
+            .to.have.nested.property('[0]')
+            .to.deep.nested.include({
+                commandName: 'ConfigSetCommand',
+                message: 'Provide required name=value pairs for the command. Enclose any values that contain spaces in double quotes.',
+                exitCode: 1,
+            });
     });
 });
