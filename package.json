@@ -14,7 +14,7 @@
     "url": "git+https://github.com/pony-ci/sfdx-node.git"
   },
   "dependencies": {
-    "@pony-ci/cli-exec": "^1.0.2",
+    "@pony-ci/cli-exec": "^1.0.6",
     "@salesforce/command": "^2",
     "@salesforce/core": "^2",
     "fs-extra": "^8.1.0",
