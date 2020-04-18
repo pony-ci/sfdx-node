@@ -34,8 +34,19 @@ function preprocessCommandsDir(commandsDir: string, namespace: string, parts: st
     return cmdArray;
 }
 
+function processBaseCommand(moduleDir: string, namespace: string): SfdxCommandDefinition | undefined {
+    if (fs.existsSync(path.join(moduleDir, `${namespace}.js`))) {
+        return {
+            commandId: namespace,
+            commandName: pascalCase([namespace, 'command']),
+            commandFile: path.join(moduleDir, `${namespace}.js`)
+        };
+    }
+}
+
 export function buildCommands(createCommand: CreateCommandFunc, moduleDir: string, namespace: string): NsApi {
-    const nsApi: NsApi = {};
+    const base = processBaseCommand(moduleDir, namespace);
+    const nsApi: NsApi = base ? createCommand(base.commandId, base.commandName, base.commandFile) : {};
     preprocessCommandsDir(path.join(moduleDir, namespace), namespace, [])
         .forEach(({commandId, commandName, commandFile}: SfdxCommandDefinition) => {
             const parts = commandId.split(':').slice(1);
