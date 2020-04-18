@@ -1,6 +1,6 @@
 {
   "name": "@pony-ci/sfdx-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Execute SFDX commands in node.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
