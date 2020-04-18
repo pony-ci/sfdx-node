@@ -17,17 +17,19 @@ const sendRejected = (value) => {
 
 function onMessage(message: SfdxNodeMessage): void {
     process.removeListener('message', onMessage);
-    const {commandId, commandName, commandFile, flags, opts}: SfdxNodeMessage = message;
-    try {
-        const command = createCommand(commandId, commandName, commandFile);
-        const value = command(flags, opts);
-        if (value && typeof value.then === 'function') {
-            value.then(sendResolved).catch(sendRejected);
-        } else {
-            sendResolved(value);
+    if (message && message.commandId && message.commandName && message.commandFile) {
+        const {commandId, commandName, commandFile, flags, opts}: SfdxNodeMessage = message;
+        try {
+            const command = createCommand(commandId, commandName, commandFile);
+            const value = command(flags, opts);
+            if (value && typeof value.then === 'function') {
+                value.then(sendResolved).catch(sendRejected);
+            } else {
+                sendResolved(value);
+            }
+        } catch (err) {
+            sendRejected(err);
         }
-    } catch (err) {
-        sendRejected(err);
     }
 }
 
