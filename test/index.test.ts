@@ -41,6 +41,16 @@ describe('sfdx force', () => {
             .should.eventually.be.instanceOf(Array);
     });
 
+    it('config get', async () => {
+        await sfdx.force.config.get({}, 'defaultusername')
+            .should.eventually.be.instanceOf(Array);
+    });
+
+    it('config get flags array', async () => {
+        await sfdx.force.config.get({quiet: true}, ['defaultusername'])
+            .should.eventually.be.instanceOf(Array);
+    });
+
     it('config set throw', async () => {
         await sfdx.force.config.set()
             .should.eventually.be.rejected.with.instanceOf(Array)
