@@ -32,7 +32,7 @@
     "chai-as-promised": "^7.1.1",
     "globby": "^8",
     "minimist": "^1.2.5",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "nyc": "^15.0.1",
     "ts-node": "^8",
     "tslint": "^5"
